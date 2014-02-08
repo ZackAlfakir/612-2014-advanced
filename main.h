@@ -3,15 +3,10 @@
 
 #include <IterativeRobot.h>
 #include <Joystick.h>
-#include <Relay.h>
-#include <DigitalInput.h>
 #include <AnalogChannel.h>
 
 #include "SmoothJoystick.h"
-#include "Shift.h"
-#include "Pneumatics.h"
 #include "DerekDrive.h"
-#include "Arm.h"
 
 #include "UpdateRegistry.h"
 
@@ -38,14 +33,10 @@ public:
     //DerekDrive* test_drivetrain;
     SmoothJoystick* driverJoy;
     SmoothJoystick* gunnerJoy;
-    Shift* shifter;
-
-    Arm* arm;
     
     DerekDrive* drivetrain;
     
     UpdateRegistry updateRegistry;
-    Pneumatics* pnum;
     
     AnalogChannel* ultrasonic;
     

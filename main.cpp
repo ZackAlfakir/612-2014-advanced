@@ -22,9 +22,7 @@ void robot_class::RobotInit()
     driverJoy = new SmoothJoystick(DRIVER_JOY_PORT);
     gunnerJoy = new SmoothJoystick(GUNNER_JOY_PORT);
     
-    drivetrain = new DerekDrive(SHIFT_MOD, SHIFT_CHAN_F, SHIFT_CHAN_R,
-                                
-                                TALON_FL_MODULE, TALON_FL_CHANNEL,
+    drivetrain = new DerekDrive(TALON_FL_MODULE, TALON_FL_CHANNEL,
                                 TALON_RL_MODULE, TALON_RL_CHANNEL,
                                 TALON_FR_MODULE, TALON_FR_CHANNEL,
                                 TALON_RR_MODULE, TALON_RR_CHANNEL);

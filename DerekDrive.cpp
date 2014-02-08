@@ -5,9 +5,7 @@
 #include "Controls.h"
 #include "ports.h"
 
-DerekDrive::DerekDrive(uint8_t shiftMod, uint32_t shift1, uint32_t shift2,
-                       //talons
-                       uint8_t modFL,uint32_t chanFL,
+DerekDrive::DerekDrive(uint8_t modFL,uint32_t chanFL,
                        uint8_t modRL,uint32_t chanRL,
                        uint8_t modFR,uint32_t chanFR,
                        uint8_t modRR,uint32_t chanRR)
@@ -16,7 +14,6 @@ DerekDrive::DerekDrive(uint8_t shiftMod, uint32_t shift1, uint32_t shift2,
                                 new Victor(modFR,chanFR),
                                 new Victor(modRR,chanRR))
 {
-    shifter = new Shift(shiftMod,shift1,shift2);
     isAsync = false;
     //robot_class* robot = (robot_class*)o;
     drivePower = 1.0;
@@ -28,7 +25,6 @@ DerekDrive::DerekDrive(uint8_t shiftMod, uint32_t shift1, uint32_t shift2,
 
 DerekDrive::~DerekDrive()
 {
-    delete shifter;
 }
 void DerekDrive::autoDrive(float dist) 
 {
@@ -62,11 +58,6 @@ void DerekDrive::doTeleOp()
         std::printf("Ultrasonic Distance: %f \n", ultrasonicPower);
     }
     count++;
-}
-void DerekDrive::shiftGear()
-{
-    //TODO
-    shifter -> shiftGear();
 }
 void DerekDrive::stop()
 {
