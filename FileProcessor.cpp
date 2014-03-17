@@ -49,7 +49,7 @@ void FileProcessor::open(char* name, fileMode mode) {
         default:
             file = fopen(fname, "w+");
     }
-    updateBuffer();
+    //updateBuffer();
 }
 
 /*
@@ -87,7 +87,7 @@ void FileProcessor::write(char* str) {
     snprintf(output, 100, "%s: %s\n", curtime, str);
     
     fprintf(file, output);
-    updateBuffer();
+    //updateBuffer();
 }
 
 /*
