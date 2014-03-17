@@ -20,7 +20,6 @@ FileProcessor::FileProcessor(char* name, fileMode mode=rw) {
 
 FileProcessor::~FileProcessor() {
     fclose(file);
-    free(buffer);
 }
 
 /*
