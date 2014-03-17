@@ -42,12 +42,27 @@ void FileProcessor::open(char* name, fileMode mode) {
             break;
         case w:
             file = fopen(fname, "a");
+            fseek (file, 0, SEEK_END);
+            int size = ftell(file);
+            if (size > 19455) {
+                file = fopen(fname, "w")
+            }
             break;
         case rw:
             file = fopen(fname, "a+");
+            fseek (file, 0, SEEK_END);
+            int size = ftell(file);
+            if (size > 19455) {
+                file = fopen(fname, "w+")
+            }
             break;
         default:
             file = fopen(fname, "a+");
+            fseek (file, 0, SEEK_END);
+            int size = ftell(file);
+            if (size > 19455) {
+                file = fopen(fname, "w+")
+            }
     }
     updateBuffer();
 }
