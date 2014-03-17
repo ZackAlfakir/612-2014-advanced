@@ -31,13 +31,9 @@ public:
     AnalogChannel* infared2;
     
     ADXL345_I2C* accel;
-    
-    char* curInfo;
-    char* filename;
-    FileProcessor* fp;
-    
 private:
     //sensors
+    double convertToDistance(double f);
 };
 
 #endif

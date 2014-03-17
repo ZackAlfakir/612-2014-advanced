@@ -20,9 +20,6 @@ Sensors::Sensors()
     ultrasonic2 = new Ultrasonic(6,7); //FAKE NOTHING THERE
     accel = new ADXL345_I2C(1);
     
-    filename = "Sensors.txt";
-    fp = new FileProcessor(filename, rw);
-    curInfo = new char[256];
     left->Start();
     right->Start();
 }
@@ -35,16 +32,12 @@ void Sensors::runSensors(int sense)
     {
         if (previousSense != sense)
         {
-            snprintf(curInfo, 100, "!!PnumSwitch (Digital Input)!!\n");
-            std::printf("%s", curInfo);
-            fp->write(curInfo);
+            std::printf("!!PnumSwitch (Digital Input)!!\n");
             prevVal = -99.9;
         }
         if ((double)pnumSwitch -> Get() != prevVal)
         {
-            snprintf(curInfo, 100, "PnumSwitch: %f\n",(double)pnumSwitch -> Get());
-            std::printf("%s", curInfo);
-            fp->write(curInfo);
+            std::printf("PnumSwitch: %f\n",(double)pnumSwitch -> Get());
         }
         prevVal = (double)pnumSwitch -> Get();
     }
@@ -52,16 +45,11 @@ void Sensors::runSensors(int sense)
     {
         if (previousSense != sense)
         {
-            snprintf(curInfo, 100, "!!Left Encoder!!\n");
-            std::printf("%s", curInfo);
-            fp->write(curInfo);
-            prevVal = -99.9;
+            std::printf("!!Left Encoder!!\n");
         }
         if ((double)left->Get() != prevVal)
         {
-            snprintf(curInfo, 100, "Left Encoder: %f\n", (double)left->Get());
-            std::printf("%s", curInfo);
-            fp->write(curInfo);
+            std::printf("Left Encoder: %f\n", (double)left->Get());
         }
         prevVal = (double)left->Get();
     }
@@ -69,16 +57,12 @@ void Sensors::runSensors(int sense)
     {
         if (previousSense != sense)
         {
-            snprintf(curInfo, 100, "!!Right Encoder!!\n");
-            std::printf("%s", curInfo);
-            fp->write(curInfo);
+            std::printf("!!Right Encoder!!\n");
             prevVal = -99.9;
         }
         if ((double)right->Get() != prevVal)
         {
-            snprintf(curInfo, 100, "Right Encoder: %f\n", (double)right->Get());
-            std::printf("%s", curInfo);
-            fp->write(curInfo);
+            std::printf("Right Encoder: %f\n", (double)right->Get());
         }
         prevVal = (double)right->Get();
     }
@@ -86,18 +70,14 @@ void Sensors::runSensors(int sense)
     {
         if (previousSense != sense)
         {
-            snprintf(curInfo, 100, "!!UltraSonic!!\n");
-            std::printf("%s", curInfo);
-            fp->write(curInfo);
+            std::printf("!!UltraSonic!!\n");
             prevVal = -99.9;
         }
         if (count % 50 == 0)
         {
             if ((double)ultrasonic->GetVoltage() != prevVal)
             {
-                snprintf(curInfo, 100, "UltraSonic Voltage: %f\nUltraSonic Distance: %f\n\n", (double)ultrasonic->GetVoltage(), (double)ultrasonic->GetVoltage()/(0.0098));
-                std::printf("%s", curInfo);
-                fp->write(curInfo);
+                std::printf("UltraSonic Voltage: %f\nUltraSonic Distance: %f\n\n", (double)ultrasonic->GetVoltage(), convertToDistance((double)ultrasonic->GetVoltage()));
             }
         }
         prevVal = (double)ultrasonic->GetValue();
@@ -106,18 +86,14 @@ void Sensors::runSensors(int sense)
     {
         if (previousSense != sense)
         {
-            snprintf(curInfo, 100, "!!UltraSonic2!!\n");
-            std::printf("%s", curInfo);
-            fp->write(curInfo);
+            std::printf("!!UltraSonic2!!\n");
             prevVal = -99.9;
         }
         if (count % 50 == 0)
         {
             if ((double)ultrasonic2->GetRangeInches() != prevVal)
             {
-                snprintf(curInfo, 100, "UltraSonic Voltage: %f\n", (double)ultrasonic2->GetRangeInches());
-                std::printf("%s", curInfo);
-                fp->write(curInfo);
+                std::printf("UltraSonic Voltage: %f\n", (double)ultrasonic2->GetRangeInches());
             }
         }
         prevVal = (double)ultrasonic2->GetRangeInches();
@@ -126,9 +102,7 @@ void Sensors::runSensors(int sense)
     {
         if (previousSense != sense)
         {
-            snprintf(curInfo, 100, "!!Infared!!\n");
-            std::printf("%s", curInfo);
-            fp->write(curInfo);
+            std::printf("!!Infared!!\n");
             prevVal = -99.9;
         }
         if (count % 50 == 0)
@@ -136,9 +110,7 @@ void Sensors::runSensors(int sense)
             double distance = (double)(infared->GetVoltage()*18.777777777777777); // about 1 cm off
             if ((double)infared->GetVoltage() != prevVal)
             {
-                snprintf(curInfo, 100, "Infared Voltage: %f\nInfared Value: %f\nInfared Distance (cm): %f\n\n", (double)infared->GetVoltage(), (double)infared->GetValue(), distance);
-                std::printf("%s", curInfo);
-                fp->write(curInfo);
+                std::printf("Infared Voltage: %f\nInfared Value: %f\nInfared Distance (cm): %f\n\n", (double)infared->GetVoltage(), (double)infared->GetValue(), distance);
             }
         }
         prevVal = (double)infared->GetValue();
@@ -147,9 +119,7 @@ void Sensors::runSensors(int sense)
     {
         if (previousSense != sense)
         {
-            snprintf(curInfo, 100, "!!Infared2!!\n");
-            std::printf("%s", curInfo);
-            fp->write(curInfo);
+            std::printf("!!Infared2!!\n");
             prevVal = -99.9;
         }
         if (count % 50 == 0)
@@ -157,9 +127,7 @@ void Sensors::runSensors(int sense)
             double distance = (double)(infared->GetVoltage()*18.777777777777777); // about 1 cm off
             if ((double)infared->GetVoltage() != prevVal)
             {
-                snprintf(curInfo, 100, "Infared Voltage: %f\nInfared Value: %f\nInfared Distance (cm): %f\n\n", (double)infared->GetVoltage(), (double)infared->GetValue(), distance);
-                std::printf("%s", curInfo);
-                fp->write(curInfo);
+                std::printf("Infared Voltage: %f\nInfared Value: %f\nInfared Distance (cm): %f\n\n", (double)infared->GetVoltage(), (double)infared->GetValue(), distance);
             }
         }
         prevVal = (double)infared->GetValue();
@@ -168,9 +136,7 @@ void Sensors::runSensors(int sense)
     {
         if (previousSense != sense)
         {
-            snprintf(curInfo, 100, "!!Accelorometer!!\n");
-            std::printf("%s", curInfo);
-            fp->write(curInfo);
+            std::printf("!!Accelorometer!!\n");
             prevVal = -99.99;
         }
         if (count % 25 == 0)
@@ -235,9 +201,7 @@ void Sensors::runSensors(int sense)
     }
     else if (sense >= 9)
     {
-        snprintf(curInfo, 100, "MAX\n");
-        std::printf("%s", curInfo);
-        fp->write(curInfo);
+        std::printf("MAX\n");
         robot->selection = 80;
     }
     previousSense = sense;
@@ -264,4 +228,8 @@ double Sensors::getPitch()
     //double roll = atan(-yAxis/zAxis)*(180/3.141592654);
     double pitch = atan(xAxis/(sqrt((yAxis*yAxis) + (zAxis*zAxis))))*(180/3.141592654);
     return pitch;
+}
+double Sensors::convertToDistance(double f)
+{
+    return f/0.009736111536946669 + 0.7008307562;
 }

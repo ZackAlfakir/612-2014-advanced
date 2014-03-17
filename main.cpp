@@ -34,22 +34,18 @@ void robot_class::DisabledPeriodic()
 
 void robot_class::AutonomousInit()
 {
-    testJag = new Talon(1,1);
 }
 
 void robot_class::AutonomousPeriodic()
 {
-    testJag->Set(1.0);
 }
 
 void robot_class::TeleopInit()
 {
-    testJag = new Talon(1,1);
 }
 
 void robot_class::TeleopPeriodic()
 {
-    testJag->Set(0.5); 
 }
 
 void robot_class::TestInit()
