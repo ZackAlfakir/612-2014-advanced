@@ -124,13 +124,13 @@ void Sensors::runSensors(int sense)
         }
         if (count % 50 == 0)
         {
-            double distance = (double)(infared->GetVoltage()*18.777777777777777); // about 1 cm off
+            double distance = (double)(infared2->GetVoltage()*18.777777777777777); // about 1 cm off
             if ((double)infared->GetVoltage() != prevVal)
             {
-                std::printf("Infared Voltage: %f\nInfared Value: %f\nInfared Distance (cm): %f\n\n", (double)infared->GetVoltage(), (double)infared->GetValue(), distance);
+                std::printf("Infared2 Voltage: %f\nInfared2 Value: %f\nInfared2 Distance (cm): %f\n\n", (double)infared2->GetVoltage(), (double)infared2->GetValue(), distance);
             }
         }
-        prevVal = (double)infared->GetValue();
+        prevVal = (double)infared2->GetValue();
     }
     else if (sense == 7)
     {

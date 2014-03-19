@@ -273,16 +273,16 @@ void Motors::launcher(bool print, float power)
     {
         wormDrive->Set(0.0);
     }
-    if (print && (power < -0.15 || power > 0.15))
+    static int count = 0;
+    if (count % 10 == 0 && (power < -0.15 || power > 0.15))
     {
         std::printf("Worm Drive: %f\n", power);
-        std::printf("Distance: %f\n\n", infaredDistance);
     }
     else if (print && (power > -0.15 && power < 0.15))
     {
         std::printf("Worm Drive: 0.0\n");
-        std::printf("Distance: %f\n\n", infaredDistance);
     }
+    count++;
 }
 void Motors::controlPiston()
 {
