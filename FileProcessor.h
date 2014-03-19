@@ -20,16 +20,14 @@ public:
     void open(char*, fileMode);
     void close();
     void write(char*);
-    void getline(int);
-    void updateBuffer();
-    void print();
+    //void getline(int);
+    //void updateBuffer();
+    //void print();
 private:
 
     FILE* file;   
     char* fname;
     fileMode fmode;
-    char* buffer;
-    int length;
 };  
 
 #endif

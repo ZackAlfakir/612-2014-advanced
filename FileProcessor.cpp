@@ -20,7 +20,6 @@ FileProcessor::FileProcessor(char* name, fileMode mode=rw) {
 
 FileProcessor::~FileProcessor() {
     fclose(file);
-    free(buffer);
 }
 
 /*
@@ -41,15 +40,15 @@ void FileProcessor::open(char* name, fileMode mode) {
             file = fopen(fname, "r");
             break;
         case w:
-            file = fopen(fname, "a");
+            file = fopen(fname, "w");
             break;
         case rw:
-            file = fopen(fname, "a+");
+            file = fopen(fname, "w+");
             break;
         default:
-            file = fopen(fname, "a+");
+            file = fopen(fname, "w+");
     }
-    updateBuffer();
+    //updateBuffer();
 }
 
 /*
@@ -87,74 +86,5 @@ void FileProcessor::write(char* str) {
     snprintf(output, 100, "%s: %s\n", curtime, str);
     
     fprintf(file, output);
-    updateBuffer();
-}
-
-/*
- * checks if mode contains r, otherwise does nothing
- * updates the buffer
- * prints certain line of buffer (using clumsy code, will be cleaned up later)
- */ 
-
-void FileProcessor::getline(int ln) {
-    if (!(fmode == r || fmode == rw)) {
-        return;
-    }
-    updateBuffer();
-    int i = 0;
-    int ctr = 0;
-    int lineCnt = 1;
-    for (int j = 0; j < length; j++) {
-        if (buffer[j] == '\n') {
-            lineCnt++;
-        }
-    }
-    if (ln > lineCnt) {
-        ln = lineCnt-1;
-    }
-    for (i = 0; i < length; i++) {
-        if (buffer[i] == '\n') {
-            ctr++;
-            if (ctr == ln-1) {
-                break;
-            }
-        }
-    }
-    i++;
-    while (buffer[i] != '\n') {
-        printf("%c", buffer[i]);
-        i++;
-    }
-}
-
-/*
- * checks if mode has r, otherwise do nothing
- * reads the file and sets the value 
- * of the char array buffer 
- * to the contents of the file
- */ 
-
-void FileProcessor::updateBuffer() {
-    if (!(fmode == r || fmode == rw)) {
-        return;
-    }
-    fseek(file, 0, SEEK_END);
-    int length_ = ftell(file);
-    length = length_;
-    rewind(file);
-    buffer = (char*) malloc (sizeof(char)*length_);
-    fread(buffer, 1, length_, file);
-    
-}
-
-/*
- * checks if mode has r, otherwise does nothing
- * prints contents of file
- */
-
-void FileProcessor::print() {
-    if (!(fmode == r || fmode == rw)) {
-        return;
-    }
-    printf("buffer: \n%s", buffer);
+    //updateBuffer();
 }
