@@ -23,7 +23,7 @@ public:
     char* curInfo;
     char* filename;
     FileProcessor* fp;
-    
+    int prevPnum;
 private:
     DoubleSolenoid* shift1;//8,7
     DoubleSolenoid* clamp; //6,5

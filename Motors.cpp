@@ -59,7 +59,7 @@ void Motors::runMotor(int motor)
             std::printf("%s", curInfo);
             fp->write(curInfo);
         }
-        //drive(print); //implementation of RobotDrive
+        drive(); //implementation of RobotDrive
     }
     else if (motor >= 1 && motor <=4)
         setTalon(motor,print);
@@ -82,33 +82,28 @@ void Motors::runMotor(int motor)
     }
     previousMotor = motor;
 }
-void Motors::drive(bool print)
+void Motors::drive()
 {
-    static int count = 0;
-    left = robot->driverJoy->GetRawAxis(DRIVER_LEFT_DRIVE_AXIS);
-    right = robot->driverJoy->GetRawAxis(DRIVER_RIGHT_DRIVE_AXIS);
-    if (left > 0.1 || left < -0.1)
+    float l = robot->driverJoy->GetRawAxis(DRIVER_LEFT_DRIVE_AXIS);
+    float r = robot->driverJoy->GetRawAxis(DRIVER_RIGHT_DRIVE_AXIS);
+    if (l > 0.1 || l < -0.1)
     {
-        FL -> Set(left);
-        RL -> Set(left);
+        robot->motors->FL -> Set(-l);
+        robot->motors->RL -> Set(-l);
     }
-    else if (right > 0.1 || right < -0.1)
+    if (r > 0.1 || r < -0.1)
     {
-        FR -> Set(right);
-        RR -> Set(right);
+        robot->motors->FR -> Set(r);
+        robot->motors->RR -> Set(r);
     }
-    else 
+    else
     {
-	FR->Set(0.0);
-	RR->Set(0.0);
-	FL->Set(0.0);
-	RL->Set(0.0);
+        robot->motors->FL -> Set(0.0);
+        robot->motors->RL -> Set(0.0);
+        
+        robot->motors->FR -> Set(0.0);
+        robot->motors->RR -> Set(0.0);
     }
-    if (count % 10 == 0)
-    {
-        std::printf("Drivetrain: %f\n", power);
-    }
-    count++;
 }
 void Motors::drive2(bool print)
 {
@@ -176,21 +171,29 @@ void Motors::runJag(CANJaguar* jag, float power, bool print, float previousPower
     static float setPower = 0.0;
     if (robot->driverJoy->GetRawButton(BUTTON_START))
     {
-        setPower += 0.01;
+        setPower += 0.05;
         if (setPower > 1.0)
             setPower = 1.0;
         std::printf("Power: %f\n", setPower);
     }
     else if (robot->driverJoy->GetRawButton(BUTTON_BACK))
     {
-        setPower -= 0.01;
-        if (setPower < -1.0)
-            setPower = -1.0;
+        setPower -= 0.05;
+        if (setPower < 0)
+            setPower = 0;
         std::printf("Power: %f\n", setPower);
     }
-    if (power > 0.15 || power < -0.15)
+    if (power > 0.15)
     {
         jag -> Set(setPower);
+        if (count % 25 == 0)
+        {
+            std::printf("7: Jag Tilt: %f\n", jag->Get());
+        }
+    }
+    else if (power < -0.15)
+    {
+        jag->Set(-setPower);
         if (count % 25 == 0)
         {
             std::printf("7: Jag Tilt: %f\n", jag->Get());
@@ -259,7 +262,7 @@ void Motors::runCompressor(Relay* relay, float power, bool print)
 }
 void Motors::launcher(bool print, float power)
 {
-    double infaredDistance =  (double)((robot->sense->infared->GetVoltage())*18.777777777777777);
+    //double infaredDistance =  (double)((robot->sense->infared->GetVoltage())*18.777777777777777);
     controlPiston();
     if (power > 0.15)
     {

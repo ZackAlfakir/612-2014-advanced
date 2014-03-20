@@ -19,7 +19,7 @@ Sensors::Sensors()
     infared2 = new AnalogChannel(5);
     ultrasonic2 = new Ultrasonic(6,7); //FAKE NOTHING THERE
     accel = new ADXL345_I2C(1);
-    
+    previousSense = 0;
     left->Start();
     right->Start();
 }
@@ -27,7 +27,6 @@ void Sensors::runSensors(int sense)
 {
     static int count = 0;
     static double prevVal = -99.9;
-    static int previousSense = -1;
     if (sense == 0)
     {
         if (previousSense != sense)

@@ -29,7 +29,7 @@ public:
     AnalogChannel* ultrasonic;
     AnalogChannel* infared;
     AnalogChannel* infared2;
-    
+    int previousSense;
     ADXL345_I2C* accel;
 private:
     //sensors

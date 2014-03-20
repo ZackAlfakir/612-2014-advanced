@@ -14,11 +14,11 @@ Pneumatics::Pneumatics()
     filename = "Pneumatics.txt";
     fp = new FileProcessor(filename, rw);
     curInfo = new char[256];
+    prevPnum = 0;
 }
 
 void Pneumatics::runPneumatics(int pnum)
 {
-    static int prevPnum = -1;
 //     bool isNotified = false;
     pressurize();
     unsigned long int prevVal = 0;

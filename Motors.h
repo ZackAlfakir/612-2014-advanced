@@ -59,7 +59,7 @@ private:
     float power;
     float left;
     float right;
-    void drive(bool print);
+    void drive();
     void drive2(bool print);
     bool over_thresh;
     //const float THRESHHOLD = 0.1;
