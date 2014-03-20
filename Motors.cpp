@@ -25,7 +25,7 @@ Motors::Motors()
     fp = new FileProcessor(filename, rw);
     curInfo = new char[256];
     over_thresh = false;
-    previousMotor = -1;
+    previousMotor = 0;
 }
 
 Motors::~Motors()
